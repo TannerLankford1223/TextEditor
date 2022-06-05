@@ -4,13 +4,16 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.io.*;
 import java.util.Objects;
 
 public class TextEditor extends JFrame {
 
     private JTextArea textArea;
     private JTextField searchField;
+    private final JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
     public TextEditor() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,6 +121,40 @@ public class TextEditor extends JFrame {
 
     private void triggerEvent(ActiveEvent activeEvent) {
 
+    }
+
+    private void save() {
+        int returnValue = jfc.showSaveDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File fileName = jfc.getSelectedFile();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+                textArea.write(writer);
+            } catch (IOException e) {
+                System.out.println("Write error: " + e.getMessage());
+            }
+        } else {
+            System.out.println("User cancelled the operation: Save");
+        }
+    }
+
+    private void load() {
+        int returnValue = jfc.showOpenDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jfc.getSelectedFile();
+            textArea.setText(null);
+            try {
+                try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+                    textArea.read(reader, null);
+                }
+            } catch (IOException e) {
+                textArea.setText("");
+                System.out.println("Read Error: " + e.getMessage());
+            }
+        } else {
+            System.out.println("User cancelled the operation: Load");
+        }
     }
 }
 
