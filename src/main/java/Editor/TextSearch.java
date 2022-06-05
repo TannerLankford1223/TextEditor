@@ -25,7 +25,6 @@ public class TextSearch extends SwingWorker<List<MatchedResult>, Void> {
         Pattern pattern = Pattern.compile(searchPattern);
         Matcher matcher = pattern.matcher(text);
 
-
         while(matcher.find()) {
             results.add(new MatchedResult(matcher.start(), matcher.end(), matcher.group()));
         }

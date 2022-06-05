@@ -6,6 +6,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,8 +124,17 @@ public class TextEditor extends JFrame {
         component.setBorder(border == null ? marginBorder : new CompoundBorder(marginBorder, border));
     }
 
-    private void triggerEvent(ActiveEvent activeEvent) {
-
+    // Responds with the correct action based on the action event
+    private void triggerEvent(ActionEvent actionEvent) {
+        switch (actionEvent.getActionCommand()) {
+            case "Save" -> save();
+            case "Open" -> load();
+            case "Search" -> search();
+            case "Next" -> nextResult();
+            case "Previous" -> previousResult();
+            case "Exit" -> dispose();
+            default -> System.out.println("Invalid event");
+        }
     }
 
     private void save() {
