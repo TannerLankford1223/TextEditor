@@ -7,12 +7,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class TextEditor extends JFrame {
 
     private JTextArea textArea;
     private JTextField searchField;
+    private int currIndex = 0;
+    private volatile List<MatchedResult> matchedResults = new ArrayList<>();
     private final JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
     public TextEditor() {
@@ -155,6 +159,46 @@ public class TextEditor extends JFrame {
         } else {
             System.out.println("User cancelled the operation: Load");
         }
+    }
+
+    private void search() {
+        matchedResults.clear();
+        TextSearch search = new TextSearch(searchField.getText(),
+                textArea.getText());
+        try {
+            search.execute();
+            matchedResults = search.get();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!matchedResults.isEmpty()) {
+            setCaret(matchedResults.get(0));
+        } else {
+            System.out.println("The search returned no results.");
+        }
+    }
+
+    private void nextResult() {
+        currIndex++;
+        currIndex = currIndex % matchedResults.size();
+        MatchedResult result = matchedResults.get(currIndex);
+        setCaret(result);
+    }
+
+    private void previousResult() {
+        currIndex--;
+        currIndex = (currIndex + matchedResults.size()) % matchedResults.size();
+        MatchedResult result = matchedResults.get(currIndex);
+        setCaret(result);
+
+    }
+
+    private void setCaret(MatchedResult result) {
+        textArea.setCaretPosition(result.getStartIndex() + result.getText().length());
+        textArea.select(result.getStartIndex(),
+                result.getStartIndex() + result.getText().length());
+        textArea.grabFocus();
     }
 }
 
