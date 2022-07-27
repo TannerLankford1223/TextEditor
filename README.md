@@ -1,6 +1,6 @@
 # TextEditor
 ***
-Text editor desktop app written using Java Swing
+Text editor desktop app written using Java Swing. Users can create, save, load, and update text files as well as search for terms in the text with the text bar.
 
 ## Installation and Getting Started
 ***
