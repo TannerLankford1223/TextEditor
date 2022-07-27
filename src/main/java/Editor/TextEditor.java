@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TextEditor extends JFrame {
 
@@ -105,8 +106,8 @@ public class TextEditor extends JFrame {
     }
 
     private JButton createButton(String name, String iconFile, String command) {
-        JButton button = new JButton(new ImageIcon(getClass().getClassLoader()
-                .getResource("images/" + iconFile)));
+        JButton button = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader()
+                .getResource("images/" + iconFile))));
         button.setName(name);
         button.setActionCommand(command);
         button.addActionListener(this::triggerEvent);
