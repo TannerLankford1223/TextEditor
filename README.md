@@ -26,3 +26,7 @@ java -jar TextEditor-1.0-SNAPSHOT.jar
 ````
 
 ## Example
+
+
+https://user-images.githubusercontent.com/91995966/181141175-70f0ad12-be9f-4026-b4db-d9a848e05b4d.mov
+
