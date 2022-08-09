@@ -1,9 +1,15 @@
 # TextEditor
-***
+
 Text editor desktop app written using Java Swing. Users can create, save, load, and update text files as well as search for terms in the text with the text bar.
 
+## Technology Used
+
+1. Java 17
+2. Maven
+3. Java Swing
+
 ## Installation and Getting Started
-***
+
 1. Clone this project to a local repo
 2. Make sure that Maven and Java 17 is installed on your machine
 3. Install necessary dependencies
